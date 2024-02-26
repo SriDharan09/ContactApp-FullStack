@@ -1,13 +1,42 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* const [contactList, setContactList] = useState([]);
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+  useEffect(() => {
+    init();
+  }, []);
+
+  const init = () => {
+    contactServer
+      .getAllContact()
+      .then((res) => {
+        console.log(res.data);
+        // Ensure that content exists and it's an array
+        if (res.data) {
+          setContactList(res.data.content);
+        } else {
+          console.error("Invalid data format received from server.");
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  return (
+    <div className="App">
+      <h1>Contact List</h1>
+      <ul>
+        {contactList.map((contact) => (
+          <li key={contact.id}>
+            <div>Name: {contact.name}</div>
+            <div>Email: {contact.email}</div>
+            <div>Phone: {contact.phone}</div>
+            <div>Address: {contact.address}</div>
+            <div>Title: {contact.title}</div>
+            <div>Status: {contact.status}</div>
+            
+            <img src={contact.photoUrl} alt={contact.name} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  ); */

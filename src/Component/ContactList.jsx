@@ -28,7 +28,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
             [...Array(data.totalPages).keys()].map((page, index) => (
               // eslint-disable-next-line
               <a
-                onClick={getAllContacts(page)}
+                onClick={() => getAllContacts(page)}
                 className={currentPage === page ? "active" : ""}
                 key={page}
               >

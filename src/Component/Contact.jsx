@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Contact = ({ contact }) => {
   return (
-    <Link to={`/contact/${contact.id}`} className="contact__item">
+    <Link to={`/contacts/${contact.id}`} className="contact__item">
       <div className="contact__header">
         <div className="contact__image">
           <img src={contact.photoUrl} alt={contact.name.substring(0, 15)} />
@@ -20,7 +20,9 @@ const Contact = ({ contact }) => {
         </p>
         <p>
           <i className="bi bi-geo"></i>
-          {contact.address}
+          {contact.address.length < 20
+            ? contact.address
+            : `${contact.address.substring(0, 20)} ..`}
         </p>
         <p>
           <i className="bi bi-telephone"></i>
@@ -28,7 +30,7 @@ const Contact = ({ contact }) => {
         </p>
         <p>
           {contact.status === "Active" ? (
-            <i className="bi bi-check-circle"></i>
+            <i className="bi bi-check-circle status__red"></i>
           ) : (
             <i className="bi bi-x-circle"></i>
           )}

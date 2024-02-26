@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./App.css";
 import ContactList from "./Component/ContactList";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./Component/Header";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { getContacts, saveContact, updatePhoto } from "./Server/ContactService";
+import ContactDetail from "./Component/ContactDetail";
+import { toastError, toastInfo, toastSuccess } from "./Server/ToastService";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   // -------------------- State Management Start------------------- //
@@ -26,7 +29,7 @@ function App() {
   // --------------------State Management End------------------- //
 
   // Get All contact
-  const getAllContacts = async (page = 0, size = 10) => {
+  const getAllContacts = async (page = 0, size = 4) => {
     try {
       setCurrentPage(page);
       const { data } = await getContacts(page, size);
@@ -34,6 +37,7 @@ function App() {
       console.log(data);
     } catch (err) {
       console.log(err);
+      toastError(err.message);
       fileRef.current.value = null;
     }
   };
@@ -41,6 +45,7 @@ function App() {
   // OnMount Load all Data fromserver by calling GetAllContact Method
   useEffect(() => {
     getAllContacts();
+    toastInfo("Data Fetched successfully");
   }, []);
 
   // -------------------- getAllContact On Load End------------------- //
@@ -69,7 +74,9 @@ function App() {
       const formData = new FormData();
       formData.append("file", file, file.name);
       formData.append("id", data.id);
+      // eslint-disable-next-line
       const { data: photoUrl } = await updatePhoto(formData);
+      toastSuccess("New User successfully created");
 
       // set default values
       toggleModal(false);
@@ -87,13 +94,33 @@ function App() {
 
       getAllContacts();
     } catch (error) {
-      console.log(error);
-      // toastError(error.message);
+      toastError(error.message);
     }
   };
-  console.log(values);
-      // -------------------- SaveContact End------------------- //
+  // -------------------- SaveContact End------------------- //
 
+  const updateContact = async (contact) => {
+    try {
+      const { data } = await saveContact(contact);
+      console.log(data);
+      getAllContacts();
+    } catch (err) {
+      toastError(err.message);
+
+      console.log(err);
+    }
+  };
+
+  const updateImage = async (formData) => {
+    try {
+      // eslint-disable-next-line
+      const { data: photoUrl } = await updatePhoto(formData);
+    } catch (err) {
+      toastError(err.message);
+
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -110,6 +137,15 @@ function App() {
                   data={data}
                   currentPage={currentPage}
                   getAllContacts={getAllContacts}
+                />
+              }
+            />
+            <Route
+              path="/contacts/:id"
+              element={
+                <ContactDetail
+                  updateContact={updateContact}
+                  updateImage={updateImage}
                 />
               }
             />
@@ -222,6 +258,7 @@ function App() {
           </form>
         </div>
       </dialog>
+      <ToastContainer />
     </>
   );
 }

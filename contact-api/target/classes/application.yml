@@ -1,0 +1,28 @@
+
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/contactapi
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      hbm2ddl:
+        auto: update
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+  mvc:
+    throw-exception-if-no-handler-found : true
+    async:
+      request-timeout : 3600000
+server:
+  port: 8080
+  error:
+    path: /user/error
+    whitelabel:
+      enabled: false
